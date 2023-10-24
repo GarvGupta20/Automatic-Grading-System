@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Button, Dialog, DialogActions, DialogTitle } from "@material-ui/core";
+import {useDispatch} from 'react-redux';
 import PublishIcon from "@material-ui/icons/Publish";
+import useCourses from "../../customHook/useCourses";
 import { useHistory, useParams } from "react-router-dom";
 
 export default function PublishButton() {
   const [open, setOpen] = useState(false);
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const course = useCourses(id);
   let history = useHistory();
   const handleOpen = () => {
     setOpen(true);
@@ -17,13 +21,15 @@ export default function PublishButton() {
 
   async function handlePublish() {
     // const original = await DataStore.query(Course, id);
-
+    const obj = course;
+    obj.status = "PUBLISHED";
+    dispatch({type:'UpdateTest', data: obj});
     // await DataStore.save(
     //   Course.copyOf(original, (updated) => {
     //     updated.status = CourseStatus.PUBLISHED;
     //   })
     // );
-    history.push("/courses");
+    history.push("/exams");
   }
   return (
     <div>

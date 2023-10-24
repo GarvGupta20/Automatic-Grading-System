@@ -11,7 +11,7 @@ function ContinueButton({ course }) {
         style={{ marginLeft: "auto", borderRadius: "20px" }}
       >
         <Link
-          to={`/course/${course.id}`}
+          to={`/exams/${course.id}`}
           style={{
             textDecoration: "none",
             color: "white",

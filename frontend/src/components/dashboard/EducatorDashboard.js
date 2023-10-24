@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import {useSelector} from "react-redux"
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -17,6 +18,7 @@ function EducatorDashboard() {
   const user = useContext(UserContext);
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const tests = useSelector(state => state.test); 
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
@@ -24,14 +26,17 @@ function EducatorDashboard() {
       // const models = (await DataStore.query(Course)).filter(
       //   (c) => c.createdBy === user.username
       // );
-      // setCourses(models);
+      const models = tests.filter(c => {
+        return c.createdBy === user.username
+      })
+      setCourses(models);
     }
     getCourses();
     // const subscription = DataStore.observe(Course).subscribe((msg) => {
     //   getCourses();
     // });
     // return () => subscription.unsubscribe();
-  }, [user.username]);
+  }, [user.username, tests]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

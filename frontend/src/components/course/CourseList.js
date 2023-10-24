@@ -2,11 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import * as mutations from "../../graphql/mutations";
 import { Container, Grid, Typography } from "@material-ui/core";
 import { UserContext } from "../../context/UserContext";
+import {useSelector, useDispatch} from "react-redux"
 import CourseCard from "./CourseCard";
 import nodata from "../../assests/no-data.svg";
 
 function CourseList() {
+  const tests = useSelector(state => state.test); 
   const [courses, setCourses] = useState([]);
+  const dispatch = useDispatch();
   const user = useContext(UserContext);
 
   useEffect(() => {
@@ -15,9 +18,10 @@ function CourseList() {
     //   getCourses();
     // });
     // return () => subscription.unsubscribe();
-  }, []);
+    
+  }, [tests]);
 
-  async function getCourses() {
+  function getCourses() {
     // const models = await DataStore.query(
     //   Course,
     //   (c) => c.status("eq", CourseStatus.PUBLISHED),
@@ -25,11 +29,19 @@ function CourseList() {
     //     sort: (s) => s.createdAt(SortDirection.DESCENDING),
     //   }
     // );
-    // setCourses(models);
+    const models = tests.filter(c => {
+      return c.status === 'PUBLISHED'
+    })
+    setCourses(models);
   }
   async function handleUpdate(courseID) {
     // const models = await DataStore.query(Course, courseID);
-
+    const models = tests.filter(c => {
+      return c.id == courseID
+    })
+    const obj = models[0];
+    obj.enrolledStudents.push(user.id);
+    dispatch({type: 'UpdateTest', data: obj})
     // await DataStore.save(
     //   new CourseUser({
     //     course: models,
@@ -64,7 +76,7 @@ function CourseList() {
           ) : (
             <Container align="center" maxWidth="md">
               <img src={nodata} alt="no-course" height="80%" width="80%" />
-              <Typography> No Course!</Typography>
+              <Typography> No Exams present at the Moment!</Typography>
             </Container>
           )}
         </Grid>

@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   TextField,
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function NewCourse() {
+  const dispatch = useDispatch();
   const user = useContext(UserContext);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -39,6 +41,21 @@ export default function NewCourse() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    console.log(new Date().toLocaleString());
+    const exam = 
+    {
+      title: title,
+      desc: desc,
+      introduction: "",
+      createdBy: user.username,
+      createdAt: new Date().toLocaleString(),
+      User: user,
+      status: "DRAFT",
+      enrolledStudents: [user.id],
+      coursePin: coursePin,
+      id: new Date().getTime()
+    }
+    dispatch({type: "AddTest", data: exam})
     // await DataStore.save(
     //   new Course({
     //     title: title,
@@ -73,7 +90,7 @@ export default function NewCourse() {
         onClick={handleOpen}
         style={{ float: "right", margin: "20px" }}
       >
-        <AddIcon /> &nbsp; Add Course
+        <AddIcon /> &nbsp; Add Test
       </Button>
       <Dialog
         open={open}
@@ -81,11 +98,11 @@ export default function NewCourse() {
         aria-labelledby="form-dialog-title"
       >
         <div className={classes.form}>
-          <DialogTitle id="form-dialog-title">Create New Course</DialogTitle>
+          <DialogTitle id="form-dialog-title">Create New Test</DialogTitle>
           <DialogContent>
             <TextField
               margin="dense"
-              label="Title"
+              label="Test Title"
               type="text"
               required
               fullWidth
@@ -95,7 +112,7 @@ export default function NewCourse() {
             <br />
             <TextField
               margin="dense"
-              label="Content"
+              label="Test Description"
               type="text"
               multiline
               required
@@ -107,7 +124,7 @@ export default function NewCourse() {
             <br />
             <TextField
               margin="dense"
-              label="Create a 4-digit course pin"
+              label="Create a 4-digit Test pin"
               required
               type="number"
               fullWidth

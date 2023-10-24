@@ -15,7 +15,7 @@ function Footer() {
               letterSpacing: "6px",
             }}
           >
-            EduCouch
+            Automated Grading System
           </Typography>
           <Typography
             variant="subtitle2"
@@ -31,14 +31,14 @@ function Footer() {
           <Typography variant="h6" style={{ letterSpacing: "3px" }}>
             Connect with us{" "}
           </Typography>
-          <Link href="mailto: palakgupta2712@gmail.com">
+          <Link >
             <img
               src={`https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white`}
               alt="gmail"
               style={{ padding: "10px" }}
             />
           </Link>
-          <Link href="https://github.com/palakgupta2712" target="_blank">
+          <Link target="_blank">
             <img
               src={`https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white`}
               alt="github"
@@ -46,7 +46,6 @@ function Footer() {
             />
           </Link>
           <Link
-            href="https://www.linkedin.com/in/palakgupta2712/"
             target="_blank"
           >
             <img
@@ -55,7 +54,7 @@ function Footer() {
               style={{ padding: "10px" }}
             />
           </Link>
-          <Link href="https://codepen.io/palakgupta27/" target="_blank">
+          <Link  target="_blank">
             <img
               src={`https://img.shields.io/badge/Codepen-000000?style=for-the-badge&logo=codepen&logoColor=white`}
               alt="codepen"
@@ -75,14 +74,6 @@ function Footer() {
             justifyContent: "center",
           }}
         >
-          <FavoriteIcon style={{ color: "red" }} />
-          Made by &#8287;{"   "}
-          <Link
-            href="https://www.linkedin.com/in/palakgupta2712/"
-            target="_blank"
-          >
-            Palak Gupta
-          </Link>
         </Grid>
       </Grid>
     </div>

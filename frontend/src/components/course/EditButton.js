@@ -32,7 +32,7 @@ export default function EditButton() {
           <Button onClick={handleCancel} color="primary" variant="outlined">
             Cancel
           </Button>
-          <Link to={`/course/${id}/edit`} style={{ textDecoration: "none" }}>
+          <Link to={`/exams/${id}/edit`} style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
               style={{ background: "#12355B", color: "white" }}

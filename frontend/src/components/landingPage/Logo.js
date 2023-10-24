@@ -6,7 +6,7 @@ function Logo() {
 
   return (
     <div className={classes.container}>
-      <div className={classes.logo}>EduCouch</div>
+      <div className={classes.logo}>Automated Grading System</div>
     </div>
   );
 }

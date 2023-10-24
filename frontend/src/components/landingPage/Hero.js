@@ -17,16 +17,15 @@ function Hero() {
         <Grid item xs={12}>
           <Container maxWidth="md" style={{ padding: "20px" }}>
             <Typography variant="h3">
-              Everything you need to manage your educational institution!
+            Everything you need to grade with ease and accuracy!
             </Typography>
             <Typography
               variant="subtitle2"
               gutterBottom
               className={classes.subtitle}
             >
-              A cloud-based learning management system is a platform intended
-              for educational institution for managing their educational
-              content.
+              
+              Streamline subjective exam grading with OCR and semantic analysis. Teachers upload PDF questions and answer keys; students submit their answers. The system extracts and compares text, generating similarity scores.
             </Typography>
 
             <Button
@@ -70,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
   subtitle: {
     [theme.breakpoints.up("md")]: {
       padding: "0 120px",
+      margin: "2rem 0"
     },
   },
 }));

@@ -39,7 +39,7 @@ function Nav() {
       </NavLink>
 
       <NavLink
-        to="/courses"
+        to="/exams"
         activeClassName={classes.navActive}
         className={classes.navlink}
       >
@@ -47,7 +47,7 @@ function Nav() {
           <Hidden smDown>
             <LibraryBooksRoundedIcon fontSize="large" />
           </Hidden>
-          <Typography>Courses</Typography>
+          <Typography>Exams</Typography>
         </Grid>
       </NavLink>
 

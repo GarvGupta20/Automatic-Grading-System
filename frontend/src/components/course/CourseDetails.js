@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useTheme } from "@material-ui/core/styles";
+import {useSelector} from "react-redux";
 import { useStyles } from "../../utils/useStyles";
 import {
   AppBar,
@@ -25,6 +26,7 @@ import CourseStatus from "./CourseStatus";
 export default function CourseDetails() {
   const user = useContext(UserContext);
   const classes = useStyles();
+  const tests = useSelector(state => state.test); 
   const theme = useTheme();
   const { id } = useParams();
   const [course, setCourse] = useState([]);
@@ -33,6 +35,13 @@ export default function CourseDetails() {
     async function getCourses() {
       // const models = await DataStore.query(Course, id);
       // setCourse(models);
+      const models = tests.filter(c => {
+        console.log(c.id==id);
+        return c.id == id
+      })
+      console.log(id,models);
+      if(models.length > 0)
+      setCourse(models[0]);
     }
     getCourses();
   }, [id]);

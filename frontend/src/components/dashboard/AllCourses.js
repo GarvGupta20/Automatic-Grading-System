@@ -47,8 +47,8 @@ export default function CustomizedTables() {
         <TableHead>
           <TableRow>
             <StyledTableCell>S. No.</StyledTableCell>
-            <StyledTableCell>Course Title</StyledTableCell>
-            <StyledTableCell align="center">Course Description</StyledTableCell>
+            <StyledTableCell>Test Title</StyledTableCell>
+            <StyledTableCell align="center">Test Description</StyledTableCell>
             <StyledTableCell align="center">Status</StyledTableCell>
             <StyledTableCell align="center">Created On</StyledTableCell>
             <StyledTableCell align="center">Course Pin</StyledTableCell>
@@ -58,7 +58,7 @@ export default function CustomizedTables() {
           {courses.map((course, index) => (
             <StyledTableRow key={course.name}>
               <StyledTableCell>{index + 1}</StyledTableCell>
-              <Link to={`/course/${course.id}/`}>
+              <Link to={`/exams/${course.id}/`}>
                 <StyledTableCell
                   component="th"
                   scope="row"

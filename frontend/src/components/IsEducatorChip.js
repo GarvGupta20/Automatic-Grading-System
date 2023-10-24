@@ -8,7 +8,7 @@ function IsEducatorChip() {
     <React.Fragment>
       {user.isEducator ? (
         <Chip
-          label="Instructor"
+          label="Teacher"
           size="small"
           color="secondary"
           variant="outlined"

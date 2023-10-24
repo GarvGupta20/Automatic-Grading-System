@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
+import {useSelector, useDispatch} from "react-redux";
 import {
   Box,
   Button,
@@ -21,7 +22,9 @@ import { Chip } from "@material-ui/core";
 
 function Edit() {
   const [title, setTitle] = useState();
+  const dispatch = useDispatch();
   const [desc, setDesc] = useState();
+  const tests = useSelector(state => state.test);
   const [introduction, setIntroduction] = useState();
   const [editorState, setEditorState] = useState();
   const [course, setCourse] = useState([]);
@@ -32,19 +35,24 @@ function Edit() {
   useEffect(() => {
     async function fetchCourse() {
       // const models = await DataStore.query(Course, id);
-      // setCourse(models);
-      // setTitle(models.title);
-      // setDesc(models.desc);
-      // setIntroduction(models.introduction);
-      // setCoursePin(models.coursePin);
+      const arr = tests.filter(c => {
+        console.log(c.id==id);
+        return c.id == id
+      })
+      const models = arr[0];
+      setCourse(models);
+      setTitle(models.title);
+      setDesc(models.desc);
+      setIntroduction(models.introduction);
+      setCoursePin(models.coursePin);
 
-      // setEditorState(
-      //   EditorState.createWithContent(
-      //     ContentState.createFromBlockArray(
-      //       convertFromHTML(models.introduction)
-      //     )
-      //   )
-      // );
+      setEditorState(
+        EditorState.createWithContent(
+          ContentState.createFromBlockArray(
+            convertFromHTML(models.introduction)
+          )
+        )
+      );
     }
 
     fetchCourse();
@@ -60,6 +68,12 @@ function Edit() {
     if (title === "" || desc === "") {
       alert("Cannot be blank!");
     } else {
+      const obj = course;
+      obj.title = title;
+      obj.desc = desc;
+      obj.introduction = introduction;
+      obj.coursePin = coursePin;
+      dispatch({type: 'UpdateTest', data: obj})
       // const original = await DataStore.query(Course, id);
 
       // await DataStore.save(

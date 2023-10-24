@@ -45,8 +45,8 @@ export default function CustomizedTables() {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Course Title</StyledTableCell>
-            <StyledTableCell align="center">Course Description</StyledTableCell>
+            <StyledTableCell>Test Title</StyledTableCell>
+            <StyledTableCell align="center">Test Description</StyledTableCell>
             <StyledTableCell align="center">Status</StyledTableCell>
             <StyledTableCell align="center">Created on</StyledTableCell>
             <StyledTableCell align="center">Course Pin</StyledTableCell>
@@ -57,7 +57,7 @@ export default function CustomizedTables() {
             <>
               {course.status === "PUBLISHED" && (
                 <StyledTableRow key={course.name}>
-                  <Link to={`/course/${course.id}/`}>
+                  <Link to={`/exams/${course.id}/`}>
                     <StyledTableCell
                       component="th"
                       scope="row"

@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { useParams } from "react-router";
 import { Box, Button, Container, Paper, Typography } from "@material-ui/core";
 import { Editor } from "react-draft-wysiwyg";
+import { UseSelector, useDispatch } from 'react-redux';
 import { convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
@@ -15,6 +16,7 @@ function CourseIntro() {
   const [introduction, setIntroduction] = useState();
   const [editorState, setEditorState] = useState();
   const { id } = useParams();
+  const dipatch = useDispatch();
   const course = useCourses(id);
 
   function onEditorStateChange(editorState) {
@@ -24,6 +26,10 @@ function CourseIntro() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    console.log("called");
+    const obj = course;
+    obj.introduction = introduction;
+    dipatch({type: 'UpdateTest', data: obj})
     // const original = await DataStore.query(Course, id);
     // await DataStore.save(
     //   Course.copyOf(original, (updated) => {

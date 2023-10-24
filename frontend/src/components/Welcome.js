@@ -6,12 +6,13 @@ import { UserContext } from "../context/UserContext";
 
 function Welcome() {
   const user = useContext(UserContext);
-
+  console.log("welcomee",user);
   return (
     <div>
       <div
         style={{
           backgroundImage: "url(/hero.svg)",
+          backgroundColor:"#0E2A47",
           color: "white",
           display: "flex",
           justifyContent: "flex-end",
@@ -24,7 +25,7 @@ function Welcome() {
           variant="h4"
           style={{ display: "flex", alignItems: "center" }}
         >
-          Welcome! {user.name}
+          <p id='welcome'>Welcome! {user.name}</p>
           <Avatar
             size={60}
             name={user.username}

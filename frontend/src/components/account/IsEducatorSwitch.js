@@ -24,19 +24,21 @@ function IsEducatorSwitch() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    user.isEducator = state.checkedA;
     // const original = await DataStore.query(User, user.id);
     // const data = await DataStore.save(
     //   User.copyOf(original, (updated) => {
     //     updated.isEducator = state.checkedA;
     //   })
     // );
-    // if (data) setOpen(true);
+    setOpen(true);
+
   }
   return (
     <React.Fragment>
       <Grid container style={{ marginBottom: "10px", padding: "5px" }}>
         <Grid item>
-          <Label text="Become an Educator?" />
+          <Label text="Become a Teacher?" />
         </Grid>
         <Grid item xs></Grid>
         <Grid item>
