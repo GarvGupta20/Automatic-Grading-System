@@ -2,23 +2,27 @@ import React, { useContext, useEffect, useState } from "react";
 import ReactPlayer from "react-player/youtube";
 import NewLesson from "./NewLesson";
 import { useParams } from "react-router";
-import { Avatar, Card, CardHeader, Grid, IconButton } from "@material-ui/core";
+import { Avatar, Button, Card, CardHeader, Grid, IconButton } from "@material-ui/core";
 import { Delete, Edit } from "@material-ui/icons";
 import { UserContext } from "../../context/UserContext";
 import useCourses from "../../customHook/useCourses";
+import { useSelector } from 'react-redux';
 
 function Lessons() {
   let { id } = useParams();
   const user = useContext(UserContext);
+  const tests = useSelector(state => state.test); 
   const [lessons, setLessons] = useState([]);
   const course = useCourses(id);
 
   useEffect(() => {
     async function getLessons() {
-      // const models = (await DataStore.query(Lesson)).filter(
-      //   (c) => c.courseID === id
-      // );
-      // setLessons(models);
+      let models;
+     tests.forEach(c => {
+      if(c.id == id)
+        models = c;
+    })
+      setLessons(models.questions);
     }
 
     getLessons();
@@ -28,6 +32,14 @@ function Lessons() {
     // return () => subscription.unsubscribe();
   }, [id]);
 
+  async function submitHandler() {
+    lessons.forEach(el => {
+      const studentAnswer = document.querySelector(`#question${el.id}`).value;
+      const expectedAnswer = el.answer;
+      console.log(studentAnswer, expectedAnswer);
+    })
+  }
+
   async function handleDelete(id) {
     // const modelToDelete = await DataStore.query(Lesson, id);
     // DataStore.delete(modelToDelete);
@@ -36,17 +48,18 @@ function Lessons() {
     <React.Fragment>
       {course.createdBy === user.username && user.isEducator && <NewLesson />}
       <Grid container>
-        {lessons.map((lesson, index) => (
+        {lessons && lessons.map((lesson, index) => (
           <Grid
             item
             xs={12}
             md={12}
             style={{ margin: "10px", padding: "10px" }}
           >
+            {user.isEducator &&
             <Card>
               <CardHeader
-                title={lesson.title}
-                subheader={lesson.summary}
+                title={lesson.name}
+                subheader={lesson.answer}
                 action={
                   user.isEducator && (
                     <div>
@@ -65,15 +78,22 @@ function Lessons() {
                 }
                 avatar={<Avatar>{index + 1}</Avatar>}
               />
-              <ReactPlayer
-                url={lesson.videoURL}
-                width="auto"
-                style={{ height: "100vh", padding: "20px" }}
-              />
             </Card>
+          }
+          {!user.isEducator && 
+          
+          <div>
+            <CardHeader
+              title={lesson.name}
+            />
+            <input type="text" id={`question${lesson.id}`} />
+          </div>
+          
+          }
           </Grid>
         ))}
       </Grid>
+      {!user.isEducator && <Button onClick={submitHandler}>Submit</Button>}
     </React.Fragment>
   );
 }

@@ -13,13 +13,13 @@ function Navlinks() {
       <CssBaseline />
       <List className={classes.root}>
         <ListItem>
-          <NavLink to={`/course/${id}`} className={classes.links}>
+          <NavLink to={`/exams/${id}`} className={classes.links}>
             Home
           </NavLink>
         </ListItem>
-        <ListItem>
+        {/* <ListItem>
           <NavLink
-            to={`/course/${id}/announcements`}
+            to={`/exams/${id}/announcements`}
             activeClassName={classes.activeLinks}
             className={classes.links}
           >
@@ -28,25 +28,25 @@ function Navlinks() {
         </ListItem>
         <ListItem>
           <NavLink
-            to={`/course/${id}/assignments`}
+            to={`/exams/${id}/assignments`}
             activeClassName={classes.activeLinks}
             className={classes.links}
           >
             Assignments
           </NavLink>
-        </ListItem>
+        </ListItem> */}
         <ListItem>
           <NavLink
-            to={`/course/${id}/lessons`}
+            to={`/exams/${id}/start`}
             activeClassName={classes.activeLinks}
             className={classes.links}
           >
-            Lessons
+            Start Exam
           </NavLink>
         </ListItem>
-        <ListItem>
+        {/* <ListItem>
           <NavLink
-            to={`/course/${id}/discussions`}
+            to={`/exams/${id}/discussions`}
             activeClassName={classes.activeLinks}
             className={classes.links}
           >
@@ -55,17 +55,17 @@ function Navlinks() {
         </ListItem>
         <ListItem>
           <NavLink
-            to={`/course/${id}/syllabus`}
+            to={`/exams/${id}/syllabus`}
             activeClassName={classes.activeLinks}
             className={classes.links}
           >
             Syllabus
           </NavLink>
-        </ListItem>
+        </ListItem> */}
         {user.isEducator && (
           <ListItem>
             <NavLink
-              to={`/course/${id}/students`}
+              to={`/exams/${id}/students`}
               activeClassName={classes.activeLinks}
               className={classes.links}
             >
