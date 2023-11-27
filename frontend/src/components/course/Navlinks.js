@@ -41,7 +41,7 @@ function Navlinks() {
             activeClassName={classes.activeLinks}
             className={classes.links}
           >
-            Start Exam
+            Exam
           </NavLink>
         </ListItem>
         {/* <ListItem>

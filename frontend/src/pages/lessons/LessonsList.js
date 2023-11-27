@@ -7,8 +7,11 @@ import { Delete, Edit } from "@material-ui/icons";
 import { UserContext } from "../../context/UserContext";
 import useCourses from "../../customHook/useCourses";
 import { useSelector } from 'react-redux';
+import axios from 'axios'
 
 function Lessons() {
+  const [loading, setLoading] = useState(false);
+  const [marks, setMarks] = useState(undefined);
   let { id } = useParams();
   const user = useContext(UserContext);
   const tests = useSelector(state => state.test); 
@@ -33,11 +36,21 @@ function Lessons() {
   }, [id]);
 
   async function submitHandler() {
-    lessons.forEach(el => {
+    setLoading(true);
+    let totalScore = 0;
+    for(let i=0;i<lessons.length;i++)
+    {
+      const el = lessons[i];
       const studentAnswer = document.querySelector(`#question${el.id}`).value;
       const expectedAnswer = el.answer;
-      console.log(studentAnswer, expectedAnswer);
-    })
+      console.log(studentAnswer,expectedAnswer);
+      const result = await axios.post('http://127.0.0.1:8000/add',{first: studentAnswer, second: expectedAnswer});
+      totalScore += Math.max(result.data.score, 0);
+    }
+    let percentage = totalScore / (lessons.length);
+    console.log(percentage);
+    setLoading(false);
+    setMarks(percentage);
   }
 
   async function handleDelete(id) {
@@ -46,9 +59,14 @@ function Lessons() {
   }
   return (
     <React.Fragment>
+      {loading && <h1 style={{position:"absolute", bottom:"30rem", left:"50rem"}}>Loading...</h1>}
       {course.createdBy === user.username && user.isEducator && <NewLesson />}
+      {marks && <div style={{marginTop:"10rem", fontSize:"2rem", display:"flex", alignItems:"center"}}>
+          <h1>Your Score:</h1>
+          <h1 style={{marginLeft:"1rem", color:"green"}}>{marks.toFixed(2)} %</h1>
+        </div>}
       <Grid container>
-        {lessons && lessons.map((lesson, index) => (
+        {!marks && lessons && lessons.map((lesson, index) => (
           <Grid
             item
             xs={12}
@@ -80,7 +98,7 @@ function Lessons() {
               />
             </Card>
           }
-          {!user.isEducator && 
+          {!marks && !user.isEducator && 
           
           <div>
             <CardHeader
@@ -93,7 +111,7 @@ function Lessons() {
           </Grid>
         ))}
       </Grid>
-      {!user.isEducator && <Button onClick={submitHandler}>Submit</Button>}
+      {!marks && !user.isEducator && <Button onClick={submitHandler}>Submit</Button>}
     </React.Fragment>
   );
 }
