@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from services.ocr.ocr import get_text
 from pydantic import BaseModel
 from services.sensi import FindScore
+from services.ocr.ocr import get_text
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -26,6 +27,8 @@ app.add_middleware(
 class Item(BaseModel):
     first: str
     second: str
+class Item2(BaseModel):
+    url: str
 
 @app.get("/api")
 def check():
@@ -40,6 +43,10 @@ def read_root():
 def add_points(item:Item):
     text = FindScore(item.first, item.second)
     return {"score": text}
+@app.post("/image")
+def add_points(item:Item2):
+    text = get_text(item.url)
+    return {"text": text}
 
 
 # for traditional start

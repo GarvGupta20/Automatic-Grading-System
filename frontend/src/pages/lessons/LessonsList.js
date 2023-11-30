@@ -35,6 +35,29 @@ function Lessons() {
     // return () => subscription.unsubscribe();
   }, [id]);
 
+  async function imageUploaded(id) {
+    setLoading(true);
+    const file = document.querySelector(`#img${id}`).files[0];
+    const studentAnswer = document.querySelector(`#question${id}`);
+    const reader = new FileReader();
+
+    reader.addEventListener(
+      "load",
+      async () => {
+        // convert image file to base64 string
+        const result = await axios.post('http://127.0.0.1:8000/image',{url: reader.result});
+        studentAnswer.value = result.data.text;
+        console.log(result)
+        setLoading(false);
+      },
+      false,
+    );
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
   async function submitHandler() {
     setLoading(true);
     let totalScore = 0;
@@ -104,7 +127,8 @@ function Lessons() {
             <CardHeader
               title={lesson.name}
             />
-            <input type="text" id={`question${lesson.id}`} />
+            <textarea rows={20} type="text" id={`question${lesson.id}`} />
+            <input type="file" id={`img${lesson.id}`} name="img" accept="image/*" onChange={()=>{ imageUploaded(lesson.id)}}></input>
           </div>
           
           }
