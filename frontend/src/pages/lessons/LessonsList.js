@@ -2,23 +2,30 @@ import React, { useContext, useEffect, useState } from "react";
 import ReactPlayer from "react-player/youtube";
 import NewLesson from "./NewLesson";
 import { useParams } from "react-router";
-import { Avatar, Card, CardHeader, Grid, IconButton } from "@material-ui/core";
+import { Avatar, Button, Card, CardHeader, Grid, IconButton } from "@material-ui/core";
 import { Delete, Edit } from "@material-ui/icons";
 import { UserContext } from "../../context/UserContext";
 import useCourses from "../../customHook/useCourses";
+import { useSelector } from 'react-redux';
+import axios from 'axios'
 
 function Lessons() {
+  const [loading, setLoading] = useState(false);
+  const [marks, setMarks] = useState(undefined);
   let { id } = useParams();
   const user = useContext(UserContext);
+  const tests = useSelector(state => state.test); 
   const [lessons, setLessons] = useState([]);
   const course = useCourses(id);
 
   useEffect(() => {
     async function getLessons() {
-      // const models = (await DataStore.query(Lesson)).filter(
-      //   (c) => c.courseID === id
-      // );
-      // setLessons(models);
+      let models;
+     tests.forEach(c => {
+      if(c.id == id)
+        models = c;
+    })
+      setLessons(models.questions);
     }
 
     getLessons();
@@ -28,25 +35,49 @@ function Lessons() {
     // return () => subscription.unsubscribe();
   }, [id]);
 
+  async function submitHandler() {
+    setLoading(true);
+    let totalScore = 0;
+    for(let i=0;i<lessons.length;i++)
+    {
+      const el = lessons[i];
+      const studentAnswer = document.querySelector(`#question${el.id}`).value;
+      const expectedAnswer = el.answer;
+      console.log(studentAnswer,expectedAnswer);
+      const result = await axios.post('http://127.0.0.1:8000/add',{first: studentAnswer, second: expectedAnswer});
+      totalScore += Math.max(result.data.score, 0);
+    }
+    let percentage = totalScore / (lessons.length);
+    console.log(percentage);
+    setLoading(false);
+    setMarks(percentage);
+  }
+
   async function handleDelete(id) {
     // const modelToDelete = await DataStore.query(Lesson, id);
     // DataStore.delete(modelToDelete);
   }
   return (
     <React.Fragment>
+      {loading && <h1 style={{position:"absolute", bottom:"30rem", left:"50rem"}}>Loading...</h1>}
       {course.createdBy === user.username && user.isEducator && <NewLesson />}
+      {marks && <div style={{marginTop:"10rem", fontSize:"2rem", display:"flex", alignItems:"center"}}>
+          <h1>Your Score:</h1>
+          <h1 style={{marginLeft:"1rem", color:"green"}}>{marks.toFixed(2)} %</h1>
+        </div>}
       <Grid container>
-        {lessons.map((lesson, index) => (
+        {!marks && lessons && lessons.map((lesson, index) => (
           <Grid
             item
             xs={12}
             md={12}
             style={{ margin: "10px", padding: "10px" }}
           >
+            {user.isEducator &&
             <Card>
               <CardHeader
-                title={lesson.title}
-                subheader={lesson.summary}
+                title={lesson.name}
+                subheader={lesson.answer}
                 action={
                   user.isEducator && (
                     <div>
@@ -65,15 +96,22 @@ function Lessons() {
                 }
                 avatar={<Avatar>{index + 1}</Avatar>}
               />
-              <ReactPlayer
-                url={lesson.videoURL}
-                width="auto"
-                style={{ height: "100vh", padding: "20px" }}
-              />
             </Card>
+          }
+          {!marks && !user.isEducator && 
+          
+          <div>
+            <CardHeader
+              title={lesson.name}
+            />
+            <input type="text" id={`question${lesson.id}`} />
+          </div>
+          
+          }
           </Grid>
         ))}
       </Grid>
+      {!marks && !user.isEducator && <Button onClick={submitHandler}>Submit</Button>}
     </React.Fragment>
   );
 }

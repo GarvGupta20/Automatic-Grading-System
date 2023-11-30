@@ -63,19 +63,7 @@ function Nav() {
           <Typography>Calendar</Typography>
         </Grid>
       </NavLink>
-
-      <NavLink
-        to="/connect"
-        activeClassName={classes.navActive}
-        className={classes.navlink}
-      >
-        <Grid item className={classes.navItem}>
-          <Hidden smDown>
-            <LinkRoundedIcon fontSize="large" />
-          </Hidden>
-          <Typography>Connect</Typography>
-        </Grid>
-      </NavLink>
+      
       <SignoutButton />
     </div>
   );

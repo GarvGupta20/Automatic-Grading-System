@@ -53,7 +53,8 @@ export default function NewCourse() {
       status: "DRAFT",
       enrolledStudents: [user.id],
       coursePin: coursePin,
-      id: new Date().getTime()
+      id: new Date().getTime(),
+      questions: []
     }
     dispatch({type: "AddTest", data: exam})
     // await DataStore.save(

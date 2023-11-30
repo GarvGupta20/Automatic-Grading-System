@@ -79,7 +79,7 @@ function CourseIntro() {
                 variant="h5"
                 style={{ textAlign: "center", padding: "20px" }}
               >
-                Add Introduction to the course
+                Add Introduction to the Exam
               </Typography>
               <Box>
                 <Editor
